@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: csoft-app
+    env: docker
+    plan: free
+    repo: https://github.com/Deepak-0804/csoft_proj
+    branch: main
+    autoDeploy: true
+    healthCheckPath: "/"
