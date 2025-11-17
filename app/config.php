@@ -9,6 +9,7 @@ return [
     'db_name' => env('DB_NAME'),
     'db_user' => env('DB_USER'),
     'db_pass' => env('DB_PASS'),
+    'db_port' => env('DB_PORT', 3306),
 
     'recaptcha_secret_key' => env('RECAPTCHA_SECRET_KEY'),
 
