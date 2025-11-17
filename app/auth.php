@@ -4,6 +4,8 @@ session_name('csoft_session');
 session_start();
 require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/db.php';
+$BASE = rtrim($config['base_url'], '/');
+
 // 1️⃣ Create session after login
 function login($userId, $name, $role, $email) {
     // ✅ 1. Backup guest cart (if any)
@@ -52,11 +54,11 @@ function is_auth() {
 
 // 5️⃣ Force authentication for pages
 function require_auth() {
+    global $BASE;
         $timeout_duration = 500; // 30 minutes
 
     if (!is_auth()) {
-        header('Location: /csoft_proj/public/index.php?page=login&error=' .
-               urlencode("You must login first"));
+        header("Location: {$BASE}/index.php?page=login&error=" . urlencode("You must login first"));
         exit;
     }
 
@@ -73,8 +75,7 @@ function require_auth() {
                       $params['secure'], $params['httponly']);
         }
         session_destroy();
-        header('Location: /csoft_proj/public/index.php?page=login&error=' .
-               urlencode("Session expired. Please login again."));
+        header("Location: {$BASE}/index.php?page=login&error=" . urlencode("Session expired. Please login again."));
         exit();
     }
 

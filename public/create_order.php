@@ -5,6 +5,8 @@ require_once __DIR__ . '/../app/auth.php';
 require_once __DIR__ . '/../app/config.php';
 require_once __DIR__ . '/../app/db.php';
 
+header('Content-Type: application/json');         // ensure JSON header for all responses
+$BASE = rtrim($config['base_url'], '/');
 
 // load PayPal credentials from config
 $paypal = $config['paypal'];
@@ -51,7 +53,7 @@ foreach ($orderItems as $item) {
 
 
 // --- Step 3: Get PayPal access token ---
-$ch = curl_init();
+/* $ch = curl_init();
 curl_setopt_array($ch, [
     CURLOPT_URL => $paypal['base_url'] . '/v1/oauth2/token',
     CURLOPT_RETURNTRANSFER => true,
@@ -69,6 +71,33 @@ if (!$accessToken) {
     http_response_code(500);
     exit(json_encode(['error' => 'Failed to get PayPal access token']));
 }
+*/
+
+$ch = curl_init();
+curl_setopt_array($ch, [
+    CURLOPT_URL => rtrim($paypal['base_url'], '/') . '/v1/oauth2/token',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_USERPWD => $paypal['client_id'] . ':' . $paypal['secret'],
+    CURLOPT_POSTFIELDS => 'grant_type=client_credentials',
+    CURLOPT_SSL_VERIFYPEER => true,       // enforce SSL verification in prod
+    CURLOPT_SSL_VERIFYHOST => 2,
+    CURLOPT_TIMEOUT => 30,
+]);
+$response = curl_exec($ch);
+$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+$curlErr = curl_error($ch);
+curl_close($ch);
+
+if ($response === false || $httpCode >= 400) {
+    http_response_code(502);
+    exit(json_encode(['error' => 'Error fetching access token', 'http' => $httpCode, 'curl_error' => $curlErr, 'response' => $response]));
+}
+$tokenData = json_decode($response, true);
+$accessToken = $tokenData['access_token'] ?? null;
+if (!$accessToken) {
+    http_response_code(500);
+    exit(json_encode(['error' => 'Failed to get access token', 'response' => $tokenData]));
+}
 
 
 // --- Step 4: Create PayPal order ---
@@ -78,17 +107,22 @@ $orderData = [
         'reference_id' => $order['order_id'],
         'description' => "Order #{$order['order_id']} by {$order['username']}",
         'amount' => [
-            'currency_code' => 'USD',   // Change to 'INR' for live mode
+            'currency_code' => 'INR',   // Change to 'INR' for live mode
             'value' => number_format($totalAmount, 2, '.', '')
         ]
     ]],
-    'application_context' => [
+    /* 'application_context' => [
         'return_url' => 'https://localhost/csoft_proj/public/paypalsuccess.php',
         'cancel_url' => 'https://localhost/csoft_proj/public/paypalcancel.php'
+    ] */
+    'application_context' => [
+        'return_url' => $BASE . '/paypalsuccess.php',
+        'cancel_url' => $BASE . '/paypalcancel.php'
     ]
+
 ];
 
-$ch = curl_init();
+/* $ch = curl_init();
 curl_setopt_array($ch, [
     CURLOPT_URL => $paypal['base_url'] . '/v2/checkout/orders',
     CURLOPT_RETURNTRANSFER => true,
@@ -110,14 +144,64 @@ if (!$paypal_order_id) {
     http_response_code(500);
     exit(json_encode(['error' => 'Failed to create PayPal order', 'paypal_response' => $paypalResponse]));
 }
+*/
+
+$ch = curl_init();
+curl_setopt_array($ch, [
+    CURLOPT_URL => rtrim($paypal['base_url'], '/') . '/v2/checkout/orders',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_HTTPHEADER => [
+        "Content-Type: application/json",
+        "Authorization: Bearer $accessToken"
+    ],
+    CURLOPT_POST => true,
+    CURLOPT_POSTFIELDS => json_encode($orderData),
+    CURLOPT_SSL_VERIFYPEER => true,
+    CURLOPT_SSL_VERIFYHOST => 2,
+    CURLOPT_TIMEOUT => 30,
+]);
+$response = curl_exec($ch);
+$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+$curlErr = curl_error($ch);
+curl_close($ch);
+
+if ($response === false || $httpCode >= 400) {
+    http_response_code(502);
+    exit(json_encode(['error' => 'Error creating PayPal order', 'http' => $httpCode, 'curl_error' => $curlErr, 'response' => $response]));
+}
+$paypalResponse = json_decode($response, true);
+$paypal_order_id = $paypalResponse['id'] ?? null;
+if (!$paypal_order_id) {
+    http_response_code(500);
+    exit(json_encode(['error' => 'Failed to create PayPal order', 'paypal_response' => $paypalResponse]));
+}
 
 // --- Step 5: Insert into order_transactions ---
-$stmt = $pdo->prepare("
+/*$stmt = $pdo->prepare("
     INSERT INTO order_transactions 
     (order_id, user_id, amount, paypal_order_id, status, response_json, currency_code) 
     VALUES (?, ?, ?, ?, 'created', ? ,'INR')
 ");
 $stmt->execute([$order['order_id'], $order['user_id'], $totalAmount, $paypal_order_id, json_encode($paypalResponse)]);
+*/
+
+$stmt = $pdo->prepare("
+    INSERT INTO order_transactions 
+    (order_id, user_id, amount, paypal_order_id, status, response_json, currency_code) 
+    VALUES (?, ?, ?, ?, 'created', ?, ?)
+");
+$ok = $stmt->execute([
+    $order['order_id'],
+    $order['user_id'],
+    number_format($totalAmount, 2, '.', ''),
+    $paypal_order_id,
+    json_encode($paypalResponse),
+    'INR'   // or 'USD' — must match currency_code used above
+]);
+if (! $ok) {
+    http_response_code(500);
+    exit(json_encode(['error' => 'Failed to record transaction']));
+}
 
 // --- Step 6: Send response back to frontend ---
 header('Content-Type: application/json');

@@ -5,8 +5,12 @@ if (!defined('APP_INIT')) {
 }
 require_once __DIR__ . '/../app/auth.php';
 require_once __DIR__ . '/../vendor/autoload.php';
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
-$dotenv->load();
+
+$BASE = rtrim($config['base_url'], '/');
+
+
+//$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+//$dotenv->load();
 
 require_once __DIR__ . '/../app/config.php';
 require_once __DIR__ . '/../app/db.php';
@@ -20,7 +24,8 @@ require_auth();
 
 // Check if the logged-in user is 'public'
 if (!can('public')) {
-    header('Location: /csoft_proj/public/index.php?page=login&error=' . urlencode("Access denied."));
+    //header('Location: /csoft_proj/public/index.php?page=login&error=' . urlencode("Access denied."));
+    header("Location: {$BASE}/index.php?page=login&error=" . urlencode("Access denied."));
     exit();
 }
 
@@ -33,15 +38,25 @@ $mail = new PHPMailer(true);
 try {
     // SMTP settings
     $mail->isSMTP();
-    $mail->Host = $_ENV['MAIL_HOST'];
+    //$mail->Host = $_ENV['MAIL_HOST'];
+    $mail->Host = $config['mail_host'];
+
     $mail->SMTPAuth = true;
-    $mail->Username = $_ENV['MAIL_USERNAME'];
-    $mail->Password = $_ENV['MAIL_PASSWORD'];
+    //$mail->Username = $_ENV['MAIL_USERNAME'];
+    $mail->Username = $config['mail_username'];
+
+    //$mail->Password = $_ENV['MAIL_PASSWORD'];
+    $mail->Password = $config['mail_password'];
+
     $mail->SMTPSecure = 'tls';
-    $mail->Port = $_ENV['MAIL_PORT']; // optionally: (int)$_ENV['MAIL_PORT']
+    //mail->Port = $_ENV['MAIL_PORT']; // optionally: (int)$_ENV['MAIL_PORT']
+    $mail->Port = $config['mail_port'];
+
 
     // Sender and recipient
-    $mail->setFrom($_ENV['MAIL_FROM'], $_ENV['MAIL_FROM_NAME']);
+    //$mail->setFrom($_ENV['MAIL_FROM'], $_ENV['MAIL_FROM_NAME']);
+    $mail->setFrom($config['mail_from'], $config['mail_from_name']);
+
     $mail->addAddress($user_email); // dynamic user email
 
     // Email content

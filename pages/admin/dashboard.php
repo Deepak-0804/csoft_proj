@@ -5,10 +5,13 @@ require_once __DIR__ . '/../../app/config.php';
 require_once __DIR__ . '/../../app/db.php';
 require_once __DIR__ . '/../../app/csrf.php';
 
+$BASE = rtrim($config['base_url'], '/');   // ✅ add this
 
 require_auth();  // forces login
+
 if (!can('admin')) {
-    die("You are not authorized to access this page.");
+header("Location: {$BASE}/index.php?page=login&error=" . urlencode("Access denied."));
+exit;
 }
 
 

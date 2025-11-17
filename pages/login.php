@@ -4,6 +4,9 @@ require_once __DIR__ . '/../app/config.php';
 require_once __DIR__ . '/../app/db.php';
 require_once __DIR__ . '/../app/csrf.php'; // adjust path if needed
 require_once __DIR__ . '/../app/messagehandler.php';
+
+$BASE = rtrim($config['base_url'], '/');
+
 if (!defined('APP_INIT')) {
         http_response_code(403);
         exit("Access denied");
@@ -55,12 +58,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
                 $redirect = $_GET['redirect'] ?? '';
-                if (!empty($redirect)) {
-                        header("Location: " . $redirect);
+
+                if (!empty($redirect) && str_starts_with($redirect, 'index.php')) {
+                        header("Location: {$BASE}/{$redirect}");
+                        exit;
                 } elseif ($user['RoleName'] === 'admin') {
-                        header("Location: index.php?page=dashboard&area=admin");
+                        //header("Location: index.php?page=dashboard&area=admin");
+                        header("Location: {$BASE}/index.php?page=dashboard&area=admin");
                 } else {
-                        header("Location: index.php?page=careers");
+                        //header("Location: index.php?page=careers");
+                        header("Location: {$BASE}/index.php?page=careers");
                 }
                 exit;
         } else {
@@ -86,7 +93,9 @@ if (is_auth()) {
         }
         session_destroy();
         // Optionally, redirect to login to refresh page
-        header("Location: /csoft_proj/public/index.php?page=login");
+        //header("Location: /csoft_proj/public/index.php?page=login");
+        header("Location: {$BASE}/index.php?page=login");
+
         exit;
 }
 ?>

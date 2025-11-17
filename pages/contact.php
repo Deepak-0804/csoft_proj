@@ -9,6 +9,8 @@ require __DIR__ . '/../app/db.php';
 require_once __DIR__ . '/../app/auth.php';
 require_once __DIR__ . '/../app/csrf.php'; // adjust path if needed
 
+$BASE = rtrim($config['base_url'], '/');
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -79,7 +81,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             ':marketing' => $marketing
         ])) {
             // SUCCESS → redirect to thankyou.php
-            header("Location: index.php?page=thankyou");
+            header("Location: {$BASE}/index.php?page=thankyou");
+
             exit; // Important: stop further execution
         } else {
             // FAILURE → stay on contact.php (optional show error message)
@@ -201,7 +204,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
 
                 <div class="mb-3">
-                    <div class="g-recaptcha" data-sitekey="6LdJTPQrAAAAAFJXYIvXRKbU3qrL3vrtkWLBmLbN"></div>
+                    <div class="g-recaptcha" data-sitekey="<?php echo htmlspecialchars($config['recaptcha_site_key']); ?>"></div>
+
                 </div>
 
                 <button type="submit" class="btn btn-primary">Submit</button>

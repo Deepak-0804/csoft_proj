@@ -5,6 +5,8 @@ require __DIR__ . '/../app/db.php';
 
 require_auth();  // forces login
 
+$BASE = rtrim($config['base_url'], '/');
+
 if (!defined('APP_INIT')) {
     http_response_code(403);
     exit("Access denied");
@@ -440,7 +442,7 @@ $orderId = $_SESSION['current_order_id'] ?? null;
                             "Session expired. Please log in again." :
                             "You must log in first."
                         );
-                        window.location.href = "index.php?page=login";
+                        window.location.href = "<?php echo $BASE; ?>/index.php?page=login";
                         return;
                     }
 
@@ -448,7 +450,7 @@ $orderId = $_SESSION['current_order_id'] ?? null;
                 } catch (err) {
                     console.error("Auth check failed:", err);
                     toastr.error("Something went wrong. Please log in again.");
-                    window.location.href = "index.php?page=login";
+                    window.location.href = "<?php echo $BASE; ?>/index.php?page=login";
                 }
 
 
@@ -540,7 +542,7 @@ $orderId = $_SESSION['current_order_id'] ?? null;
                         "Session expired. Please log in again." :
                         "You must log in first."
                     );
-                    window.location.href = "index.php?page=login";
+                    window.location.href = "<?php echo $BASE; ?>/index.php?page=login";
                     return;
                 }
 
@@ -548,7 +550,7 @@ $orderId = $_SESSION['current_order_id'] ?? null;
             } catch (err) {
                 console.error("Auth check failed:", err);
                 toastr.error("Something went wrong. Please log in again.");
-                window.location.href = "index.php?page=login";
+                window.location.href = "<?php echo $BASE; ?>/index.php?page=login";
             }
 
 
@@ -562,7 +564,7 @@ $orderId = $_SESSION['current_order_id'] ?? null;
                 });
 
                 const result = await response.json();
-            
+
                 if (result.success) {
                     toastr.success("Address saved successfully!");
                     showStep('payment'); // ✅ updates circle highlight + visibility
@@ -708,10 +710,12 @@ $orderId = $_SESSION['current_order_id'] ?? null;
                     return data.paypal_order_id;
                 },
                 onApprove: function(data, actions) {
-                    window.location.href = `paypalsuccess.php?token=${data.orderID}`;
+                    window.location.href = "<?php echo $BASE; ?>/paypalsuccess.php?token=" + data.orderID;
+
                 },
                 onCancel: function() {
-                    window.location.href = 'paypalcancel.php';
+                    window.location.href = "<?php echo $BASE; ?>/paypalcancel.php";
+
                 },
                 onError: function(err) {
                     console.error(err);
