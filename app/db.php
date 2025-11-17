@@ -1,5 +1,8 @@
 <?php
 $config = require_once __DIR__ . '/config.php';
+echo "<h2>DB.PHP RECEIVED CONFIG:</h2>";
+var_dump($config);
+exit;
 try {
     $pdo = new PDO("mysql:host={$config['db_host']};dbname={$config['db_name']}", $config['db_user'], $config['db_pass']);
     // Set the PDO error mode to exception
