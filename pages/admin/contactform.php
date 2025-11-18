@@ -1,5 +1,4 @@
         <?php
-        //require_once $_SERVER['DOCUMENT_ROOT'] . '/csoft_proj/app/auth.php';
         if (!defined('APP_INIT')) {
             http_response_code(403);
             exit("Access denied");
