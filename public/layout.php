@@ -47,10 +47,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Load Google's script (usually at end of form or page) -->
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
-
-
 <script>
 toastr.options = {
   "closeButton": true,

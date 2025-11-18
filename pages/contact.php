@@ -205,6 +205,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
 
                 <button type="submit" class="btn btn-primary">Submit</button>
+
+                <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
             </form>
         </div>
     </div>
