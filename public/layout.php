@@ -1,9 +1,3 @@
-<?php
-// layout.php
-
-// Make sure to include auth.php first to initialize session properly
-require_once __DIR__ . '/../app/auth.php';
-?>
 
 <!DOCTYPE html>
 <html>

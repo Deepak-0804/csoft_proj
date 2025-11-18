@@ -4,8 +4,9 @@ if (!defined('APP_INIT')) {
     exit("Access denied");
 }
 
-require __DIR__ . '/../app/config.php';
-require __DIR__ . '/../app/db.php';
+$pdo    = $GLOBALS['pdo'];
+$config = $GLOBALS['config'];
+$BASE   = rtrim($config['base_url'], '/');
 
 if (isset($_GET['id'])) {
     $jobId = (int)$_GET['id']; // cast to int for safety

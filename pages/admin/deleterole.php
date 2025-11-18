@@ -1,8 +1,12 @@
 <?php
-require_once __DIR__ . '/../../app/auth.php';
-require_once __DIR__ . '/../../app/config.php';
-require_once __DIR__ . '/../../app/db.php';
-require_once __DIR__ . '/../../app/csrf.php';
+if (!defined('APP_INIT')) {
+    http_response_code(403);
+    exit("Access denied");
+}
+
+$pdo    = $GLOBALS['pdo'];
+$config = $GLOBALS['config'];
+$BASE   = rtrim($config['base_url'], '/');
 
 /* require_auth();
 if (!can('admin')) die("You are not authorized");
@@ -24,7 +28,7 @@ if ($roleId > 0) {
     echo "Invalid role ID.";
 } */
 
-    header('Content-Type: application/json');
+header('Content-Type: application/json');
 
 require_auth();
 
@@ -54,5 +58,3 @@ echo json_encode([
     'success' => $ok,
     'message' => $ok ? 'Role deleted successfully' : 'Failed to delete role'
 ]);
-
-?>

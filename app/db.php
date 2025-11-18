@@ -1,10 +1,7 @@
 <?php
 
-// ALWAYS load config.php normally (not require_once)
-$config = require __DIR__ . '/config.php';
-
-// DEBUG LINE — REMOVE AFTER TESTING
-// var_dump($config); exit;
+// Use the already-loaded config
+$config = $GLOBALS['config'];
 
 try {
     $pdo = new PDO(

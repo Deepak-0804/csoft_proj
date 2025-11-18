@@ -1,6 +1,8 @@
 <?php
 
 define('APP_INIT', true);
+// LOAD AUTH ONCE (this loads config + db)
+require_once __DIR__ . '/../app/auth.php';
 
 $page = $_GET['page'] ?? 'home';
 $area = $_GET['area'] ?? 'pages';

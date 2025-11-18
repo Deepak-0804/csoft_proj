@@ -1,23 +1,24 @@
 <?php
-//require_once $_SERVER['DOCUMENT_ROOT'] . '/csoft_proj/app/auth.php';
-require_once __DIR__ . '/../../app/auth.php';
-require_once __DIR__ . '/../../app/config.php';
-require_once __DIR__ . '/../../app/db.php';
-require_once __DIR__ . '/../../app/csrf.php';
+if (!defined('APP_INIT')) {
+    http_response_code(403);
+    exit("Access denied");
+}
 
-$BASE = rtrim($config['base_url'], '/');   // ✅ add this
+$pdo    = $GLOBALS['pdo'];
+$config = $GLOBALS['config'];
+$BASE   = rtrim($config['base_url'], '/');
 
 require_auth();  // forces login
 
 if (!can('admin')) {
-header("Location: {$BASE}/index.php?page=login&error=" . urlencode("Access denied."));
-exit;
+    header("Location: {$BASE}/index.php?page=login&error=" . urlencode("Access denied."));
+    exit;
 }
 
 
 
-?>    
-    
+?>
+
 <div class="admin-dashboard">
     <h1>Admin Dashboard</h1>
     <div class="dashboard-cards">

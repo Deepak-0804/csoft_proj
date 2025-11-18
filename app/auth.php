@@ -2,9 +2,13 @@
 session_name('csoft_session');
 //ini_set('session_auto_start',1);
 session_start();
-require_once __DIR__ . '/config.php';
-require_once __DIR__ . '/db.php';
-$BASE = rtrim($config['base_url'], '/');
+$GLOBALS['config'] = require __DIR__ . '/config.php';
+$GLOBALS['pdo'] = require __DIR__ . '/db.php';
+// LOAD CSRF HELPER ONLY ONCE
+require_once __DIR__ . '/csrf.php';
+require_once __DIR__ . '/../app/messagehandler.php';
+
+$BASE = rtrim($GLOBALS['config']['base_url'], '/');
 
 // 1️⃣ Create session after login
 function login($userId, $name, $role, $email) {

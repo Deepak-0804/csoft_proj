@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__ . '/../app/auth.php';
-require __DIR__ . '/../app/config.php';
-require __DIR__ . '/../app/db.php';
+
+$pdo = $GLOBALS['pdo'];        // Use the global PDO instance
+$config = $GLOBALS['config'];  // Use global config
 
 require_auth();  // forces login
 

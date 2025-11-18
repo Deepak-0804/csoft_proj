@@ -3,18 +3,16 @@ if (!defined('APP_INIT')) {
     http_response_code(403);
     exit("Access denied");
 }
-require_once __DIR__ . '/../app/auth.php';
+
+$pdo    = $GLOBALS['pdo'];
+$config = $GLOBALS['config'];
+$BASE   = rtrim($config['base_url'], '/');
+
 require_once __DIR__ . '/../vendor/autoload.php';
-
-$BASE = rtrim($config['base_url'], '/');
-
 
 //$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
 //$dotenv->load();
 
-require_once __DIR__ . '/../app/config.php';
-require_once __DIR__ . '/../app/db.php';
-require_once __DIR__ . '/../app/csrf.php'; // adjust path if needed
 
 
 use PHPMailer\PHPMailer\PHPMailer;

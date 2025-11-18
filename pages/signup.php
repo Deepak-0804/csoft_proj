@@ -3,12 +3,10 @@ if (!defined('APP_INIT')) {
     http_response_code(403);
     exit("Access denied");
 }
-require __DIR__ . '/../app/config.php';
-require __DIR__ . '/../app/db.php';
-require_once __DIR__ . '/../app/auth.php';
-require_once __DIR__ . '/../app/csrf.php'; // adjust path if needed
-require_once __DIR__ . '/../app/messagehandler.php';
-
+$pdo    = $GLOBALS['pdo'];
+$config = $GLOBALS['config'];
+$BASE   = rtrim($config['base_url'], '/');
+$error = '';
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

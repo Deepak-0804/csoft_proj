@@ -1,12 +1,12 @@
 <?php
 
 // include global config + db connection
-require_once __DIR__ . '/../app/auth.php';
-require_once __DIR__ . '/../app/config.php';
-require_once __DIR__ . '/../app/db.php';
+$pdo    = $GLOBALS['pdo'];
+$config = $GLOBALS['config'];
+$BASE   = rtrim($config['base_url'], '/');
+$error = '';
 
 header('Content-Type: application/json');         // ensure JSON header for all responses
-$BASE = rtrim($config['base_url'], '/');
 
 // load PayPal credentials from config
 $paypal = $config['paypal'];

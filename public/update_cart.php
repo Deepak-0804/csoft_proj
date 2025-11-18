@@ -1,9 +1,7 @@
 <?php
-require_once __DIR__ . '/../app/auth.php';
-require __DIR__ . '/../app/config.php';
-require __DIR__ . '/../app/db.php';
-
-
+$pdo    = $GLOBALS['pdo'];
+$config = $GLOBALS['config'];
+$BASE   = rtrim($config['base_url'], '/');
 
 header('Content-Type: application/json');
 error_reporting(E_ALL);

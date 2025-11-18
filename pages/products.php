@@ -4,9 +4,9 @@ if (!defined('APP_INIT')) {
     exit("Access denied");
 }
 
-require_once __DIR__ . '/../app/auth.php';
-require __DIR__ . '/../app/config.php';
-require __DIR__ . '/../app/db.php';
+$pdo    = $GLOBALS['pdo'];
+$config = $GLOBALS['config'];
+$BASE   = rtrim($config['base_url'], '/');
 
 $currentPage = isset($_GET['pg']) ? (int)$_GET['pg'] : 1;
 $limit = 12;  // Display 12 products per page

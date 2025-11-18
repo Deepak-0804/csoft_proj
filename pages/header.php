@@ -4,9 +4,10 @@ if (!defined('APP_INIT')) {
   exit("Access denied");
 }
 
-require_once __DIR__ . '/../app/auth.php';
-require __DIR__ . '/../app/config.php';
-require __DIR__ . '/../app/db.php';
+$pdo = $GLOBALS['pdo'];
+$config = $GLOBALS['config'];
+
+$BASE = rtrim($config['base_url'], '/');
 
 $cartCount = 0;
 

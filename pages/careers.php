@@ -4,8 +4,7 @@ if (!defined('APP_INIT')) {
     exit("Access denied");
 }
 
-require __DIR__ . '/../app/config.php';
-require __DIR__ . '/../app/db.php';
+$config = $GLOBALS['config'];  // Use global config
 
 $currentPage = isset($_GET['pg']) ? (int)$_GET['pg'] : 1;
 $limit = 10; 
@@ -78,7 +77,7 @@ if ($jobsInPage > 0) {
 }
 
 function getDistinct($column) {
-    global $pdo;
+$pdo = $GLOBALS['pdo'];
     $stmt = $pdo->prepare("SELECT DISTINCT $column FROM jobs ORDER BY $column ASC");
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_COLUMN);
