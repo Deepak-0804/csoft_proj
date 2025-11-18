@@ -7,8 +7,7 @@ if (!defined('APP_INIT')) {
 $pdo = $GLOBALS['pdo'];
 $config = $GLOBALS['config'];
 $BASE = rtrim($config['base_url'], '/');
-var_dump($pdo);
-exit;
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
