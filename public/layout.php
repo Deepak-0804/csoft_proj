@@ -42,7 +42,7 @@
 
   <?php include __DIR__ . '/../pages/footer.php'; ?>
 
-    <script src="assets/script.js"></script>  <!-- ADD HERE -->
+    <script src="assets/scripts.js"></script>  <!-- ADD HERE -->
 
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

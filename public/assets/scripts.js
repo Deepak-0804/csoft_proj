@@ -30,8 +30,6 @@ const swiper = new Swiper('.swiper', {
     },
 });
 
-
-
 //about.php 
 
 const container = document.querySelector('.reveal');
