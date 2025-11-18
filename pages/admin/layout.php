@@ -3,38 +3,44 @@
 
 <head>
   <title>CSOFT.com</title>
-  <link rel="stylesheet" href="../assets/style.css">
+
+  <!-- Correct absolute asset paths -->
+  <link rel="stylesheet" href="/assets/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
 
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 </head>
 
 <body>
-  <?php include 'header.php'; ?>
+
+  <?php include __DIR__ . '/header.php'; ?>
 
   <div class="content-wrapper">
-    <?php include 'sidebar.php'; ?>
+    <?php include __DIR__ . '/sidebar.php'; ?>
+
     <main class="main-content">
-      <?php if (!empty($view) && file_exists($view)) {
+      <?php
+      if (!empty($view) && file_exists($view)) {
         include $view;
       } else {
         echo "<!-- No view selected or file not found -->";
-      } ?>
+      }
+      ?>
     </main>
   </div>
 
-  <?php include 'footer.php'; ?>
+  <?php include __DIR__ . '/footer.php'; ?>
 
-  <!-- Link your JS file -->
-  <script src="../assets/scripts.js"></script>
+  <!-- Correct JS path -->
+  <script src="/assets/scripts.js"></script>
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 
   <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
       $('.table-container table').DataTable({
         paging: true,
         searching: true,
@@ -45,6 +51,7 @@
       });
     });
   </script>
+
 </body>
 
 </html>
