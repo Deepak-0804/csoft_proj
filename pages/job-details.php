@@ -40,7 +40,7 @@ if (!$jobDetails) {
 ?>
 
 <div class="job-header">
-  <img src="../<?php echo htmlspecialchars($job['job_image']); ?>" alt="Job image" class="job-img">
+  <img src="<?php echo htmlspecialchars($job['job_image']); ?>" alt="Job image" class="job-img">
 
   <div class="job-title-overlay">
     

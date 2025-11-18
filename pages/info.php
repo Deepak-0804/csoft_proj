@@ -6,6 +6,6 @@ if (!defined('APP_INIT')) {
 ?>
 <section class="leadership-container">
     <div>
-        <img src="../assets/images/leadership_img.png" alt="Leadership Image" class="leadership">
+        <img src="assets/images/leadership_img.png" alt="Leadership Image" class="leadership">
     </div>
 </section>

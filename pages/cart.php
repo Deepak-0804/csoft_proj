@@ -260,7 +260,7 @@ $orderId = $_SESSION['current_order_id'] ?? null;
                                     $total += $subtotal;
                             ?>
                                     <div class="d-flex align-items-center mb-3">
-                                        <img src="../<?= htmlspecialchars($row['image']) ?>"
+                                        <img src="<?= htmlspecialchars($row['image']) ?>"
                                             alt="<?= htmlspecialchars($row['name']) ?>"
                                             class="rounded-3 me-3"
                                             style="width: 50px; height: 50px; object-fit: cover; border: 1px solid #dee2e6;">
@@ -308,7 +308,7 @@ $orderId = $_SESSION['current_order_id'] ?? null;
                     aria-controls="upiCollapse">
 
                     <div class="d-flex align-items-center gap-2">
-                        <img src="../assets/images/upiimg.png" alt="UPI" width="28">
+                        <img src="assets/images/upiimg.png" alt="UPI" width="28">
                         <span>UPI</span>
                     </div>
 
@@ -323,7 +323,7 @@ $orderId = $_SESSION['current_order_id'] ?? null;
                     <div class="form-check d-flex flex-column mb-3">
                         <div class="d-flex align-items-center gap-2">
                             <input class="form-check-input" type="radio" name="upi_option" id="paypal" checked>
-                            <img src="../assets/images/paytm.png" alt="Paypal" width="28">
+                            <img src="assets/images/paytm.png" alt="Paypal" width="28">
                             <label class="form-check-label" for="paypal">Paypal</label>
                         </div>
 
@@ -343,7 +343,7 @@ $orderId = $_SESSION['current_order_id'] ?? null;
                     <div class="form-check d-flex flex-column mb-3">
                         <div class="d-flex align-items-center gap-2">
                             <input class="form-check-input" type="radio" name="upi_option" id="gpay">
-                            <img src="../assets/images/gpay.png" alt="Google Pay" width="28">
+                            <img src="assets/images/gpay.png" alt="Google Pay" width="28">
                             <label class="form-check-label" for="gpay">Google Pay</label>
                         </div>
                         <button class="btn btn-warning btn-sm pay-btn mt-2 d-none" id="gpayBtn">
@@ -356,7 +356,7 @@ $orderId = $_SESSION['current_order_id'] ?? null;
                     <div class="form-check d-flex flex-column mb-3">
                         <div class="d-flex align-items-center gap-2">
                             <input class="form-check-input" type="radio" name="upi_option" id="phonepe">
-                            <img src="../assets/images/phonepe.png" alt="PhonePe" width="28">
+                            <img src="assets/images/phonepe.png" alt="PhonePe" width="28">
                             <label class="form-check-label" for="phonepe">PhonePe</label>
                         </div>
                         <button class="btn btn-warning btn-sm pay-btn mt-2 d-none" id="phonepeBtn">

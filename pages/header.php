@@ -50,7 +50,7 @@ if (isset($_SESSION['cart'])) {
 
       <!-- Logo -->
       <a class="navbar-brand" href="index.php?page=home">
-        <img src="../assets/images/Csoft_Logo_3_x_2 Trans.png" alt="Company Logo" height="40">
+        <img src="assets/images/Csoft_Logo_3_x_2 Trans.png" alt="Company Logo" height="40">
       </a>
 
       <!-- Hamburger Toggle -->

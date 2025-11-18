@@ -120,7 +120,7 @@ $cart = $_SESSION['cart'] ?? [];
                 $quantity = $inCart ? $cart[$productId]['quantity'] : 0;
                 ?>
                 <div class="product-card" id="product-<?php echo $productId; ?>">
-                    <img src="../<?php echo htmlspecialchars($product['image']); ?>"
+                    <img src="<?php echo htmlspecialchars($product['image']); ?>"
                         alt="<?php echo htmlspecialchars($product['name']); ?>"
                         class="product-image">
 

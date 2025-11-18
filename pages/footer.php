@@ -7,7 +7,7 @@ if (!defined('APP_INIT')) {
 
 <footer>
     <div>
-        <img src="../assets/images/Csoft_Logo_3_x_2 Trans.png" alt="Csoft Logo" style="height:40px;">
+        <img src="assets/images/Csoft_Logo_3_x_2 Trans.png" alt="Csoft Logo" style="height:40px;">
     </div>
     <div>
         &copy; <?php echo date('Y'); ?> Csoft. All rights reserved.

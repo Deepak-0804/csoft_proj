@@ -195,15 +195,15 @@ if (!defined('APP_INIT')) {
             <div class="swiper">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide testi-item">
-                        <img src="../assets/images/download1.jpg" alt="Client 1" class="testi-img">
+                        <img src="assets/images/download1.jpg" alt="Client 1" class="testi-img">
                         <p class="testi-text">"Great service and support!"<br><span class="testi-name">- Client 1</span></p>
                     </div>
                     <div class="swiper-slide testi-item">
-                        <img src="../assets/images/download2.jpg" alt="Client 2" class="testi-img">
+                        <img src="assets/images/download2.jpg" alt="Client 2" class="testi-img">
                         <p class="testi-text">"Very satisfied with the results."<br><span class="testi-name">- Client 2</span></p>
                     </div>
                     <div class="swiper-slide testi-item">
-                        <img src="../assets/images/download3.jpg" alt="Client 3" class="testi-img">
+                        <img src="assets/images/download3.jpg" alt="Client 3" class="testi-img">
                         <p class="testi-text">"Highly recommend their services!"<br><span class="testi-name">- Client 3</span></p>
                     </div>
                 </div>

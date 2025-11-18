@@ -84,7 +84,7 @@ try {
 
 
 <div class="container-fluid vh-100 p-0">
-  <img src="../assets/images/thankuimg.png" alt="Job Applied" class="img-fluid img-fit">
+  <img src="assets/images/thankuimg.png" alt="Job Applied" class="img-fluid img-fit">
 </div>
 
 <!-- Thank-you message below the image -->

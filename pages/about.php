@@ -71,7 +71,7 @@ $config = $GLOBALS['config'];  // Use global config
         <h2>Board of Directors</h2>
         <div class="BODcontainer">
             <div class="BOD1 slide-left">
-                <img src="../assets/images/mallikarjun_sir_img.jpg" alt="CEO Image" class="BODimg">
+                <img src="assets/images/mallikarjun_sir_img.jpg" alt="CEO Image" class="BODimg">
                 <div class="BODinfo">
                     <h3 class="BODname">Mallikarjun Chandu</h3>
                     <div class="designation">Cheif Executive Officer (CEO)</div>
@@ -83,7 +83,7 @@ $config = $GLOBALS['config'];  // Use global config
             </div>
 
             <div class="BOD2 slide-right">
-                <img src="../assets/images/kanakadurga_mam_img.jpg" alt="CEO Image" class="BODimg">
+                <img src="assets/images/kanakadurga_mam_img.jpg" alt="CEO Image" class="BODimg">
                 <div class="BODinfo ">
                     <h3 class="BODname">Rama KanakaDurga Chandu</h3>
                     <div class="designation">Director</div>
