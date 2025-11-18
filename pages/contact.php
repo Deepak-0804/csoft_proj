@@ -8,6 +8,12 @@ $pdo = $GLOBALS['pdo'];
 $config = $GLOBALS['config'];
 $BASE = rtrim($config['base_url'], '/');
 
+echo "<pre>";
+debug_print_backtrace();
+echo "</pre>";
+var_dump($pdo);
+exit;
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
