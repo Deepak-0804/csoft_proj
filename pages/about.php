@@ -1,4 +1,3 @@
-
 <?php
 if (!defined('APP_INIT')) {
     http_response_code(403);
@@ -22,7 +21,7 @@ $config = $GLOBALS['config'];  // Use global config
                     <a href="index.php?page=home" class="breadcrumb-home">
                         <!-- Inline SVG for home icon -->
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M8 3.293l6 6V15h-4v-4H6v4H2V9.293l6-6z"/>
+                            <path d="M8 3.293l6 6V15h-4v-4H6v4H2V9.293l6-6z" />
                         </svg>
                         Home
                     </a>
@@ -35,7 +34,7 @@ $config = $GLOBALS['config'];  // Use global config
         </div>
     </div>
     <div class="aboutcompany">
-      <p> 
+        <p>
             We have team members who have worked on the scales of Petabytes of Data managing Enterprise Solutions with Companies like Infosys, Wipro,Schwab, Compuware, Intel, Hyuwei,Sasken etc - who passionately understand the needs of a small budget to mega budget projects. Many of our Leaders worked in USA,UK,Germany for many years, so that we implement international standards as a must with every solution we work on for "the special You". We believe that
             "Customers are for ever- not just one time"
             <br><br>
@@ -44,7 +43,7 @@ $config = $GLOBALS['config'];  // Use global config
             Chandusoft offers its customers the best facilities and endless opportunities in the disciplines of Mobile Application Development , E-Commerce Development, Web Portal Development, Enterprise Application Development, Cross Platform Data porting, Enterprise level Architecting, Big Data Solutions,Data Quality Analysis, ETL and Data Management and Testing.
             <br><br>
             Chandusoft offers vibrant designs and wide spread options to its eCommerce customers who want to customize their shopping cart software and to meet its unique business needs and also distinguishes the site apart from its competitors.Zencart is giving a very tough competition to the OScommerce in India. Chandusoft offers the optimum packages for organization’s owner and provides ecommerce business solutions to many of its customers.
-      </p>
+        </p>
     </div>
 
     <div class="glancecontainer reveal">
@@ -96,38 +95,3 @@ $config = $GLOBALS['config'];  // Use global config
         </div>
     </div>
 </section>
-
-<script>
-const container = document.querySelector('.reveal');
-
-const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-        if(entry.isIntersecting){
-            entry.target.classList.add('active');
-        }
-        else {
-      entry.target.classList.remove('active'); // hide animation
-    }
-    });
-}, { threshold: 0.1 });
-
-observer.observe(container);
-
-
-
-const items = document.querySelectorAll('.slide-left, .slide-right');
-
-const observerr = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if(entry.isIntersecting){
-      entry.target.classList.add('active');    // slide in
-    } else {
-      entry.target.classList.remove('active'); // optional: reverse
-    }
-  });
-}, { threshold: 0.2 });
-
-items.forEach(item => observerr.observe(item));
-
-
-</script>

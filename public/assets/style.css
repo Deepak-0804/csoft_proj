@@ -64,7 +64,7 @@ footer img {
 }
 
 .banner-slide {
-  background-image: url('../assets/images/slider1.png'); /* 👈 Replace with your image */
+  background-image: url('images/slider1.png'); /* 👈 Replace with your image */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -167,7 +167,7 @@ section .container1{
   /* Remove explicit height or set min-height */
   min-height: 300px; /* or as you prefer */
   background-position: center;
-  background-image: url('../assets/images/slider1.png');
+  background-image: url('images/slider1.png');
   background-size: cover;
   background-attachment: fixed; /* optional */
 }
@@ -268,7 +268,7 @@ margin: 0.5em auto 0;
   padding: 5rem 5% 0;
   align-items: flex-start;
   justify-content: center;
-  background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('assets/images/contact_img.jpg');
+  background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('images/contact_img.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -312,7 +312,7 @@ margin: 0.5em auto 0;
   padding: 5rem 5% 0;
   align-items: flex-start;
   justify-content: center;
-  background: linear-gradient(#0003, #0003), url('assets/images/header_img.jpg');
+  background: linear-gradient(#0003, #0003), url('images/header_img.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -328,7 +328,7 @@ margin: 0.5em auto 0;
   padding: 5rem 5% 0;
   align-items: flex-start;
   justify-content: center;
-  background: linear-gradient(#0003, #0003), url('assets/images/contact_img.jpg');
+  background: linear-gradient(#0003, #0003), url('images/contact_img.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
