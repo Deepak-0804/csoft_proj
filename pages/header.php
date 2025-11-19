@@ -1,8 +1,4 @@
 <?php
-echo "PUBLIC HEADER LOADED<br>";
-var_dump($GLOBALS['pdo']);
-exit;
-
 if (!defined('APP_INIT')) {
   http_response_code(403);
   exit("Access denied");
