@@ -1,24 +1,48 @@
 FROM php:8.2-apache
 
-# Enable Apache mod_rewrite
+# --------------------------------------------------
+# 1. Enable Apache mods
+# --------------------------------------------------
 RUN a2enmod rewrite
 
-# Install PHP extensions
+# --------------------------------------------------
+# 2. Install system dependencies
+# --------------------------------------------------
+RUN apt-get update && apt-get install -y \
+    unzip \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# --------------------------------------------------
+# 3. Install Composer
+# --------------------------------------------------
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# --------------------------------------------------
+# 4. Install PHP extensions
+# --------------------------------------------------
 RUN docker-php-ext-install pdo pdo_mysql
 
-# Copy project
-COPY . /var/www/html
+# --------------------------------------------------
+# 5. Copy project files
+# --------------------------------------------------
+WORKDIR /var/www/html
+COPY . .
 
-# Set document root to /public
+# --------------------------------------------------
+# 6. Install PHP dependencies (creates vendor/)
+# --------------------------------------------------
+RUN composer install --no-dev --prefer-dist --optimize-autoloader
+
+# --------------------------------------------------
+# 7. Set document root to /public
+# --------------------------------------------------
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 
-# Apply document root override
 RUN sed -ri "s#DocumentRoot /var/www/html#DocumentRoot ${APACHE_DOCUMENT_ROOT}#g" /etc/apache2/sites-available/000-default.conf
 
-# Directory directive fix
 RUN sed -ri "s#/var/www/#${APACHE_DOCUMENT_ROOT}/#g" /etc/apache2/apache2.conf
 
-# Update directory permissions
 RUN echo "<Directory ${APACHE_DOCUMENT_ROOT}>\n\
     AllowOverride All\n\
 </Directory>" >> /etc/apache2/apache2.conf
