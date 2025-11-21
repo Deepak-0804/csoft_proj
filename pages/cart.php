@@ -3,8 +3,6 @@
 $pdo = $GLOBALS['pdo'];        // Use the global PDO instance
 $config = $GLOBALS['config'];  // Use global config
 
-require_auth();  // forces login
-
 $BASE = rtrim($config['base_url'], '/');
 
 if (!defined('APP_INIT')) {

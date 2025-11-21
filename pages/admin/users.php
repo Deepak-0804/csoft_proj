@@ -9,10 +9,7 @@ $config = $GLOBALS['config'];
 $BASE   = rtrim($config['base_url'], '/');
 
 
-require_auth();  // forces login
-if (!can('admin')) {
-    die("You are not authorized to access this page.");
-}
+
 
 
 

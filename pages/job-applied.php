@@ -18,16 +18,6 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require_auth();
-
-// Check if the logged-in user is 'public'
-if (!can('public')) {
-    //header('Location: /csoft_proj/public/index.php?page=login&error=' . urlencode("Access denied."));
-    header("Location: {$BASE}/index.php?page=login&error=" . urlencode("Access denied."));
-    exit();
-}
-
-
 $user_email = $_SESSION['user']['email']; // get logged-in user email
 $user_name = $_SESSION['user']['name']; // make sure this exists!
 

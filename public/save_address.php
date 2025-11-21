@@ -3,7 +3,6 @@ $pdo    = $GLOBALS['pdo'];
 $config = $GLOBALS['config'];
 $BASE   = rtrim($config['base_url'], '/');
 
-require_auth(); // ensure user logged in
 
 header('Content-Type: application/json');
 

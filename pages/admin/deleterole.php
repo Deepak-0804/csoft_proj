@@ -30,13 +30,6 @@ if ($roleId > 0) {
 
 header('Content-Type: application/json');
 
-require_auth();
-
-if (!can('admin')) {
-    echo json_encode(['success' => false, 'message' => 'Unauthorized']);
-    exit;
-}
-
 // CSRF validation
 if (!isset($_POST['csrf']) || $_POST['csrf'] !== ($_SESSION['csrf'] ?? '')) {
     http_response_code(403);

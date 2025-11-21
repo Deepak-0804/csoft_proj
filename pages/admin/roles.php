@@ -9,10 +9,6 @@ $config = $GLOBALS['config'];
 $BASE   = rtrim($config['base_url'], '/');
 
 
-require_auth();  // forces login
-if (!can('admin')) {
-    die("You are not authorized to access this page.");
-}
 
 
 $rolequery = "SELECT * FROM roles WHERE roleid <> 1 ORDER BY RoleId ASC";

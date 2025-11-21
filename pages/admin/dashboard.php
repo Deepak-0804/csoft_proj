@@ -8,13 +8,6 @@ $pdo    = $GLOBALS['pdo'];
 $config = $GLOBALS['config'];
 $BASE   = rtrim($config['base_url'], '/');
 
-require_auth();  // forces login
-
-if (!can('admin')) {
-    header("Location: {$BASE}/index.php?page=login&error=" . urlencode("Access denied."));
-    exit;
-}
-
 
 
 ?>

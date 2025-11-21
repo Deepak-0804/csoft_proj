@@ -8,11 +8,7 @@
         $config = $GLOBALS['config'];
         $BASE   = rtrim($config['base_url'], '/');
 
-        require_auth();  // forces login
-        if (!can('admin')) {
-            die("You are not authorized to access this page.");
-        }
-
+     
         $query = "SELECT * FROM contact_form ORDER BY created_at ASC";
         $result = $pdo->query($query); // $result now contains all rows
 
