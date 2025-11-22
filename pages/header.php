@@ -16,6 +16,9 @@ if (isset($_SESSION['cart'])) {
     $cartCount += $item['quantity'];
   }
 }
+
+$user = $_SESSION['user'] ?? null;
+
 ?>
 <style>
   header {
@@ -77,9 +80,28 @@ if (isset($_SESSION['cart'])) {
           <li class="nav-item">
             <a class="nav-link" href="index.php?page=products">Products</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="index.php?page=login">Login</a>
-          </li>
+          <?php if ($user): ?>
+            <!-- USER LOGGED IN -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                <?php echo htmlspecialchars($user['name']); ?>
+              </a>
+
+              <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                <li>
+                  <a class="dropdown-item" href="index.php?page=logout">Logout</a>
+                </li>
+              </ul>
+            </li>
+
+          <?php else: ?>
+            <!-- USER NOT LOGGED IN -->
+            <li class="nav-item">
+              <a class="nav-link" href="index.php?page=login">Login</a>
+            </li>
+          <?php endif; ?>
+
           <li class="nav-item">
             <a class="nav-link" href="index.php?page=cart">
               <i class="bi bi-cart"></i>

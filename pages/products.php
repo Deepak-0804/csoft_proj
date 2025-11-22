@@ -4,78 +4,9 @@ if (!defined('APP_INIT')) {
     exit("Access denied");
 }
 
-$pdo    = $GLOBALS['pdo'];
-$config = $GLOBALS['config'];
-$BASE   = rtrim($config['base_url'], '/');
-
-$currentPage = isset($_GET['pg']) ? (int)$_GET['pg'] : 1;
-$limit = 12;  // Display 12 products per page
-$offset = ($currentPage - 1) * $limit;
-
-$conditions = [];
-$params = [];
-
-// Build dynamic WHERE conditions based on filters
-if (!empty($_GET['category'])) {
-    $conditions[] = "category = :category";
-    $params[':category'] = $_GET['category'];
+if (is_array($data)) {
+    extract($data);
 }
-if (!empty($_GET['brand'])) {
-    $conditions[] = "brand = :brand";
-    $params[':brand'] = $_GET['brand'];
-}
-if (!empty($_GET['price_min'])) {
-    $conditions[] = "price >= :price_min";
-    $params[':price_min'] = $_GET['price_min'];
-}
-if (!empty($_GET['price_max'])) {
-    $conditions[] = "price <= :price_max";
-    $params[':price_max'] = $_GET['price_max'];
-}
-
-$whereSQL = $conditions ? 'WHERE ' . implode(' AND ', $conditions) : '';
-
-// Pagination setup
-$sql = "SELECT * FROM products $whereSQL ORDER BY name ASC LIMIT :limit OFFSET :offset";
-$stmt = $pdo->prepare($sql);
-
-foreach ($params as $key => $value) {
-    $stmt->bindValue($key, $value);
-}
-$stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
-$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
-$stmt->execute();
-
-// Get total product count
-$total_sql = "SELECT COUNT(*) as total FROM products $whereSQL";
-$total_result = $pdo->prepare($total_sql);
-foreach ($params as $key => $value) {
-    $total_result->bindValue($key, $value);
-}
-$total_result->execute();
-$total_products = $total_result->fetch(PDO::FETCH_ASSOC)['total'];
-$total_pages = ceil($total_products / $limit);
-
-// Get distinct categories and brands for filters
-$categories = getDistinct('category');
-$brands = getDistinct('brand');
-
-$filterQuery = '';
-if (!empty($_GET)) {
-    $temp = $_GET;
-    unset($temp['pg']); // we’ll replace pg separately
-    $filterQuery = http_build_query($temp) . '&';
-}
-
-function getDistinct($column)
-{
-    global $pdo;
-    $stmt = $pdo->prepare("SELECT DISTINCT $column FROM products ORDER BY $column ASC");
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_COLUMN);
-}
-
-$cart = $_SESSION['cart'] ?? [];
 
 ?>
 

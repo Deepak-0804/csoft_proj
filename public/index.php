@@ -2,6 +2,46 @@
 
 define('APP_INIT', true);
 require_once __DIR__ . '/../app/auth.php';
+require_once __DIR__ . '/../app/Services/CareersService.php';
+require_once __DIR__ . '/../app/Services/CartService.php';
+require_once __DIR__ . '/../app/Services/JobAppliedService.php';
+require_once __DIR__ . '/../app/Services/JobDetailsService.php';
+require_once __DIR__ . '/../app/Services/LoginService.php';
+require_once __DIR__ . '/../app/Services/LogoutService.php';
+require_once __DIR__ . '/../app/Services/ProductsService.php';
+require_once __DIR__ . '/../app/Services/SignupService.php';
+
+
+if ($page === 'login') {
+    $data = LoginService::authenticate();
+}
+
+if ($page === 'logout') {
+    LogoutService::logout();
+    header("Location: {$BASE}/index.php?page=login");
+    exit;
+}
+
+if ($page === 'signup') {
+    $data = SignupService::handle();
+}
+
+
+if ($page === 'careers') {
+    $data = CareersService::getCareersData();
+}
+if ($page === 'cart') {
+    $data = CartService::getCartData();
+}
+if ($page === 'job-details') {
+    $jobId = $_GET['id'] ?? null;
+    $data  = JobDetailsService::getJobDetails($jobId);
+}
+
+if ($page === 'products') {
+    $data = ProductsService::getProductsData();
+}
+
 
 $page = $_GET['page'] ?? 'home';
 $area = $_GET['area'] ?? 'pages';

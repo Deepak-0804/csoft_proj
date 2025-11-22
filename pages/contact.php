@@ -4,90 +4,11 @@ if (!defined('APP_INIT')) {
     http_response_code(403);
     exit("Access denied");
 }
-$pdo = $GLOBALS['pdo'];
-$config = $GLOBALS['config'];
-$BASE = rtrim($config['base_url'], '/');
 
 
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-    $recaptcha_response = $_POST['g-recaptcha-response'] ?? '';
-
-    // verify recaptcha token with Google
-    $secret = $config['recaptcha_secret_key']; // from your config
-    $response = $recaptcha_response;
-    $remoteip = $_SERVER['REMOTE_ADDR'];
-
-    $verify_url = 'https://www.google.com/recaptcha/api/siteverify';
-    $data = [
-        'secret' => $secret,
-        'response' => $response,
-        'remoteip' => $remoteip,
-    ];
-
-    $options = [
-        'http' => [
-            'method' => 'POST',
-            'header' => "Content-type: application/x-www-form-urlencoded\r\n",
-            'content' => http_build_query($data),
-        ]
-    ];
-
-    $context = stream_context_create($options);
-    $result = file_get_contents($verify_url, false, $context);
-    $resultJson = json_decode($result);
-
-    if (!$resultJson->success) {
-        // reCAPTCHA failed
-        $error = "Please verify that you are not a robot.";
-    } else {
-        // reCAPTCHA success → proceed with saving form data
-
-        // your existing code here to insert data into DB
-
-        $first_name = $_POST['first-name'];
-        $last_name = $_POST['last-name'];
-        $email = $_POST['email'];
-        $contact_number = $_POST['contact'];
-        $company_name = $_POST['company'];
-        $country = $_POST['country'];
-        $industry = $_POST['industry'];
-        $services = $_POST['services'];
-        $referred_by = $_POST['referred'];
-        $message = $_POST['message'];
-        $marketing = isset($_POST['marketing']) ? 1 : 0;
-
-        $sql = "INSERT INTO contact_form 
-        (first_name, last_name, email, contact_number, company_name, country, industry, services, referred_by, message, marketing)
-        VALUES 
-        (:first_name, :last_name, :email, :contact_number, :company_name, :country, :industry, :services, :referred_by, :message, :marketing)";
-
-        $stmt = $pdo->prepare($sql);
-
-        if ($stmt->execute([
-            ':first_name' => $first_name,
-            ':last_name' => $last_name,
-            ':email' => $email,
-            ':contact_number' => $contact_number,
-            ':company_name' => $company_name,
-            ':country' => $country,
-            ':industry' => $industry,
-            ':services' => $services,
-            ':referred_by' => $referred_by,
-            ':message' => $message,
-            ':marketing' => $marketing
-        ])) {
-            // SUCCESS → redirect to thankyou.php
-            header("Location: {$BASE}/index.php?page=thankyou");
-
-            exit; // Important: stop further execution
-        } else {
-            // FAILURE → stay on contact.php (optional show error message)
-            $error = "Form submission failed. Please try again.";
-        }
-    }
-}
+// handle POST logic BEFORE OUTPUT
+$result = ContactService::handleFormSubmit();
+$error = $result['error'] ?? null;
 
 ?>
 
@@ -108,6 +29,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </ol>
         </nav>
     </div>
+
+    <?php if (!empty($error)): ?>
+        <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
+    <?php endif; ?>
 
 
     <div class="row">

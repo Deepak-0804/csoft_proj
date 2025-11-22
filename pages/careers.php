@@ -4,103 +4,12 @@ if (!defined('APP_INIT')) {
     exit("Access denied");
 }
 
-$pdo    = $GLOBALS['pdo'];
-$config = $GLOBALS['config'];
-$BASE   = rtrim($config['base_url'], '/');
-
-$currentPage = isset($_GET['pg']) ? (int)$_GET['pg'] : 1;
-$limit = 10; 
-$offset = ($currentPage - 1) * $limit;
-
-$conditions = [];
-$params = [];
-
-// Build dynamic WHERE conditions
-if (!empty($_GET['job'])) {
-    $conditions[] = "title = :job";
-    $params[':job'] = $_GET['job'];
-}
-if (!empty($_GET['industry'])) {
-    $conditions[] = "industry = :industry";
-    $params[':industry'] = $_GET['industry'];
-}
-if (!empty($_GET['location'])) {
-    $conditions[] = "location = :location";
-    $params[':location'] = $_GET['location'];
-}
-if (!empty($_GET['category'])) {
-    $conditions[] = "category = :category";
-    $params[':category'] = $_GET['category'];
-}
-if (!empty($_GET['employment'])) {
-    $conditions[] = "employment_type = :employment";
-    $params[':employment'] = $_GET['employment'];
-}
-if (!empty($_GET['workmodel'])) {
-    $conditions[] = "work_model = :workmodel";
-    $params[':workmodel'] = $_GET['workmodel'];
-}
-
-$whereSQL = $conditions ? 'WHERE ' . implode(' AND ', $conditions) : '';
-
-// Pagination setup
-$sql = "SELECT * FROM jobs $whereSQL ORDER BY posted_date DESC LIMIT :limit OFFSET :offset";
-$result = $pdo->prepare($sql);
-
-foreach ($params as $key => $value) {
-    $result->bindValue($key, $value);
-}
-$result->bindValue(':limit', $limit, PDO::PARAM_INT);
-$result->bindValue(':offset', $offset, PDO::PARAM_INT);
-$result->execute();
-
-
-// Get total job count
-$total_sql = "SELECT COUNT(*) as total FROM jobs $whereSQL";
-$total_result = $pdo->prepare($total_sql);
-foreach ($params as $key => $value) {
-    $total_result->bindValue($key, $value);
-}
-$total_result->execute();
-$total_jobs = $total_result->fetch(PDO::FETCH_ASSOC)['total'];
-$total_pages = ceil($total_jobs / $limit);
-
-
-
-// get the number of jobs actually fetched in this page
-$jobsInPage = $result->rowCount();
-
-if ($jobsInPage > 0) {
-    $start = $offset + 1;
-    $end   = $offset + $jobsInPage;
-} else {
-    $start = 0;
-    $end   = 0;
-}
-
-function getDistinct($column) {
-    $pdo = $GLOBALS['pdo'];
-    $stmt = $pdo->prepare("SELECT DISTINCT $column FROM jobs ORDER BY $column ASC");
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_COLUMN);
-}
-
-$jobs       = getDistinct('title');
-$industries = getDistinct('industry');
-$locations  = getDistinct('location');
-$categories = getDistinct('category');
-$employmentTypes = getDistinct('employment_type');
-$workModels = getDistinct('work_model');
-
-
-$filterQuery = '';
-if (!empty($_GET)) {
-    $temp = $_GET;
-    unset($temp['pg']); // we’ll replace pg separately
-    $filterQuery = http_build_query($temp) . '&';
-}
-
+$data = CareersService::getCareersData();
+extract($data);  
+$result = $data['result'];
+$currentPage = $_GET['pg'] ?? 1;   // IMPORTANT FIX
 ?>
+
 
 
 <div class="bg-mesh">

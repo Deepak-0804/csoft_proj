@@ -1,31 +1,12 @@
 <?php
 
-$pdo = $GLOBALS['pdo'];        // Use the global PDO instance
-$config = $GLOBALS['config'];  // Use global config
-
-$BASE = rtrim($config['base_url'], '/');
-
 if (!defined('APP_INIT')) {
     http_response_code(403);
     exit("Access denied");
 }
 
-
-$totaal = 0;
-if (!empty($_SESSION['cart'])) {
-    $productIds = array_keys($_SESSION['cart']);
-    $idsString = implode(',', array_map('intval', $productIds));
-    $sql = "SELECT id, discounted_price FROM products WHERE id IN ($idsString)";
-    $result = $pdo->query($sql);
-    while ($r = $result->fetch(PDO::FETCH_ASSOC)) {
-        $pid = $r['id'];
-        $qty = $_SESSION['cart'][$pid]['quantity'] ?? 0;
-        $totaal += $r['discounted_price'] * $qty;
-    }
-}
-
-$orderId = $_SESSION['current_order_id'] ?? null;
-
+$data = CartService::getCartData();
+extract($data);
 
 ?>
 
@@ -59,11 +40,10 @@ $orderId = $_SESSION['current_order_id'] ?? null;
         <div id="cart" class="step-content">
             <?php
             if (!empty($_SESSION['cart'])) {
-                $productIds = array_keys($_SESSION['cart']);
-                $idsString = implode(',', array_map('intval', $productIds));
 
-                $query = "SELECT id, name, description, original_price ,discounted_price, image, base_quantity ,order_unit FROM products WHERE id IN ($idsString)";
-                $result = $pdo->query($query);
+
+                $result = $resultFull;
+
             ?>
                 <div class="container bg-white shadow-sm rounded-4 p-4 mb-5" style="max-width: 900px;">
                     <h5 class="mb-5 fw-bold text-primary">Your Cart</h5>
@@ -167,12 +147,9 @@ $orderId = $_SESSION['current_order_id'] ?? null;
                                     <label class="form-label fw-semibold">State <span class="text-danger">*</span></label>
                                     <select name="state" id="state" class="form-select" required>
                                         <option value="">Select State</option>
-                                        <?php
-                                        $stmt = $pdo->query("SELECT StateID, StateName FROM MasState WHERE Active = 1 ORDER BY StateName");
-                                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                            echo "<option value='{$row['StateID']}'>" . htmlspecialchars($row['StateName']) . "</option>";
-                                        }
-                                        ?>
+                                        <?php foreach ($states as $s): ?>
+                                            <option value="<?= $s['StateID'] ?>"><?= htmlspecialchars($s['StateName']) ?></option>
+                                        <?php endforeach; ?>
                                     </select>
                                 </div>
                             </div>
@@ -189,12 +166,10 @@ $orderId = $_SESSION['current_order_id'] ?? null;
                                     <label class="form-label fw-semibold">District <span class="text-danger">*</span></label>
                                     <select name="district" id="district" class="form-select" required>
                                         <option value="">Select District</option>
-                                        <?php
-                                        $stmt = $pdo->query("SELECT DistrictID, DistrictName FROM MasDistrict WHERE Active = 1 ORDER BY DistrictName");
-                                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                            echo "<option value='{$row['DistrictID']}'>" . htmlspecialchars($row['DistrictName']) . "</option>";
-                                        }
-                                        ?>
+                                        <?php foreach ($districts as $d): ?>
+                                            <option value="<?= $d['DistrictID'] ?>"><?= htmlspecialchars($d['DistrictName']) ?></option>
+                                        <?php endforeach; ?>
+
                                     </select>
                                 </div>
                             </div>
@@ -218,12 +193,9 @@ $orderId = $_SESSION['current_order_id'] ?? null;
                                 <label class="form-label fw-semibold">Address Type</label>
                                 <select name="address_type" class="form-select">
                                     <option value="">Select Type</option>
-                                    <?php
-                                    $stmt = $pdo->query("SELECT AddressTypeID, AddressTypeName FROM AddressType ORDER BY AddressTypeName");
-                                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                        echo "<option value='{$row['AddressTypeID']}'>" . htmlspecialchars($row['AddressTypeName']) . "</option>";
-                                    }
-                                    ?>
+                                    <?php foreach ($addressTypes as $a): ?>
+                                        <option value="<?= $a['AddressTypeID'] ?>"><?= htmlspecialchars($a['AddressTypeName']) ?></option>
+                                    <?php endforeach; ?>
                                 </select>
                             </div>
 
@@ -246,10 +218,10 @@ $orderId = $_SESSION['current_order_id'] ?? null;
                             <?php
                             $total = 0;
                             if (!empty($_SESSION['cart'])) {
-                                $productIds = array_keys($_SESSION['cart']);
-                                $idsString = implode(',', array_map('intval', $productIds));
-                                $query = "SELECT id, name, discounted_price, image, base_quantity, order_unit FROM products WHERE id IN ($idsString)";
-                                $result = $pdo->query($query);
+
+                                $result = $resultFull;
+                                $result->execute(); // <<< add this
+
 
                                 while ($row = $result->fetch(PDO::FETCH_ASSOC)):
                                     $productId = $row['id'];
@@ -373,4 +345,3 @@ $orderId = $_SESSION['current_order_id'] ?? null;
 
     </div>
 </div>
-
