@@ -16,6 +16,8 @@ require_once __DIR__ . '/../app/Services/LoginService.php';
 require_once __DIR__ . '/../app/Services/LogoutService.php';
 require_once __DIR__ . '/../app/Services/ProductsService.php';
 require_once __DIR__ . '/../app/Services/SignupService.php';
+require_once __DIR__ . '/../app/Services/ContactService.php';   // ✅ ADD THIS
+
 
 // NOW $BASE is guaranteed available
 $BASE = rtrim($GLOBALS['config']['base_url'], '/');
