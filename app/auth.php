@@ -2,6 +2,11 @@
 session_name('csoft_session');
 //ini_set('session_auto_start',1);
 session_start();
+
+require_once __DIR__ . '/../vendor/autoload.php';
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
+$dotenv->load();
+
 $GLOBALS['config'] = require __DIR__ . '/config.php';
 $GLOBALS['pdo'] = require __DIR__ . '/db.php';
 // LOAD CSRF HELPER ONLY ONCE
