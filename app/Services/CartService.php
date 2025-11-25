@@ -46,9 +46,9 @@ class CartService
         }
 
         // ADDRESS SECTION — dropdown lists
-        $states = $pdo->query("SELECT StateID, StateName FROM MasState WHERE Active = 1 ORDER BY StateName")->fetchAll(PDO::FETCH_ASSOC);
-        $districts = $pdo->query("SELECT DistrictID, DistrictName FROM MasDistrict WHERE Active = 1 ORDER BY DistrictName")->fetchAll(PDO::FETCH_ASSOC);
-        $addressTypes = $pdo->query("SELECT AddressTypeID, AddressTypeName FROM AddressType ORDER BY AddressTypeName")->fetchAll(PDO::FETCH_ASSOC);
+        $states = $pdo->query("SELECT StateID, StateName FROM masstate WHERE Active = 1 ORDER BY StateName")->fetchAll(PDO::FETCH_ASSOC);
+        $districts = $pdo->query("SELECT DistrictID, DistrictName FROM masdistrict WHERE Active = 1 ORDER BY DistrictName")->fetchAll(PDO::FETCH_ASSOC);
+        $addressTypes = $pdo->query("SELECT AddressTypeID, AddressTypeName FROM addresstype ORDER BY AddressTypeName")->fetchAll(PDO::FETCH_ASSOC);
 
         return [
             'totaal' => $totaal,
