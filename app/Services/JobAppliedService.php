@@ -1,10 +1,13 @@
 <?php
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-class JobAppliedService {
+class JobAppliedService
+{
 
-    public static function handle($jobId) {
+    public static function handle($jobId)
+    {
         $pdo = $GLOBALS['pdo'];
         $config = $GLOBALS['config'];
         $BASE = rtrim($config['base_url'], '/');
@@ -32,6 +35,9 @@ class JobAppliedService {
         //require_once __DIR__ . '/../../vendor/autoload.php';
 
         $mail = new PHPMailer(true);
+        $mail->SMTPDebug = 2;
+        $mail->Debugoutput = 'error_log';
+
 
         try {
             $mail->isSMTP();
@@ -61,7 +67,6 @@ class JobAppliedService {
             // Redirect to thank you
             header("Location: {$BASE}/index.php?page=thankyou");
             exit;
-
         } catch (Exception $e) {
             return ['error' => "Email failed: " . $mail->ErrorInfo];
         }
