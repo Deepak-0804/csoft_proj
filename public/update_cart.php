@@ -1,4 +1,7 @@
 <?php
+
+require_once __DIR__ . '/../app/auth.php';
+
 $pdo    = $GLOBALS['pdo'];
 $config = $GLOBALS['config'];
 $BASE   = rtrim($config['base_url'], '/');

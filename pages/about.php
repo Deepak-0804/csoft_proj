@@ -95,3 +95,40 @@ $config = $GLOBALS['config'];  // Use global config
         </div>
     </div>
 </section>
+
+
+<script>
+    const container = document.querySelector('.reveal');
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            } else {
+                entry.target.classList.remove('active'); // hide animation
+            }
+        });
+    }, {
+        threshold: 0.1
+    });
+
+    observer.observe(container);
+
+
+
+    const items = document.querySelectorAll('.slide-left, .slide-right');
+
+    const observerr = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active'); // slide in
+            } else {
+                entry.target.classList.remove('active'); // optional: reverse
+            }
+        });
+    }, {
+        threshold: 0.2
+    });
+
+    items.forEach(item => observerr.observe(item));
+</script>

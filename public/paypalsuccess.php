@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/../app/auth.php';
+
 // include global config + db connection
 $pdo    = $GLOBALS['pdo'];
 $config = $GLOBALS['config'];

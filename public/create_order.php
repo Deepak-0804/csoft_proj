@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../app/auth.php';
 
 // include global config + db connection
 $pdo    = $GLOBALS['pdo'];
@@ -107,7 +108,7 @@ $orderData = [
         'reference_id' => $order['order_id'],
         'description' => "Order #{$order['order_id']} by {$order['username']}",
         'amount' => [
-            'currency_code' => 'INR',   // Change to 'INR' for live mode
+            'currency_code' => 'USD',   // Change to 'INR' for live mode
             'value' => number_format($totalAmount, 2, '.', '')
         ]
     ]],
