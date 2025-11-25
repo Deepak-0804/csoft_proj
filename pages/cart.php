@@ -501,7 +501,7 @@ extract($data);
         }
 
         try {
-            const authResponse = await fetch('../public/check_auth.php', {
+            const authResponse = await fetch('check_auth.php', {
                 cache: 'no-store'
             });
             const auth = await authResponse.json();
