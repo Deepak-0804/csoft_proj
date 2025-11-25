@@ -32,7 +32,7 @@ try {
     // 2️⃣ Check if address already exists for this order + user
     $check = $pdo->prepare("
         SELECT OrderAddressID 
-        FROM OrderAddressDetails 
+        FROM orderaddressdetails 
         WHERE OrderID = :orderId AND UserID = :userId
     ");
     $check->execute([':orderId' => $orderId, ':userId' => $userId]);
@@ -41,7 +41,7 @@ try {
     if ($existing) {
         // 3️⃣ Update existing address
         $stmt = $pdo->prepare("
-            UPDATE OrderAddressDetails
+            UPDATE orderaddressdetails
             SET FullName = :fullName,
                 Phone = :phone,
                 Email = :email,
@@ -73,7 +73,7 @@ try {
     } else {
         // 4️⃣ Insert new address
         $stmt = $pdo->prepare("
-            INSERT INTO OrderAddressDetails
+            INSERT INTO orderaddressdetails
             (OrderID, UserID, FullName, Phone, Email, StateID, DistrictID, ZipCode, FlatBuilding, ColonyStreet, AddressTypeID)
             VALUES 
             (:orderId, :userId, :fullName, :phone, :email, :stateID, :districtID, :zip, :flat, :colony, :addressTypeID)
