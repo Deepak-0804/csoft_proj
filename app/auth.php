@@ -4,8 +4,14 @@ session_name('csoft_session');
 session_start();
 
 require_once __DIR__ . '/../vendor/autoload.php';
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
-$dotenv->load();
+
+$envPath = __DIR__ . '/..';
+
+if (file_exists($envPath . '/.env')) {
+    // Only load dotenv in LOCAL environment
+    $dotenv = Dotenv\Dotenv::createImmutable($envPath);
+    $dotenv->load();
+}
 
 $GLOBALS['config'] = require __DIR__ . '/config.php';
 $GLOBALS['pdo'] = require __DIR__ . '/db.php';
