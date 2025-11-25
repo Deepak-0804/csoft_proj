@@ -235,4 +235,5 @@ if (!defined('APP_INIT')) {
             disableOnInteraction: false,
         },
     });
+
 </script>
