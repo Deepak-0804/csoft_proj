@@ -19,6 +19,7 @@ require_once __DIR__ . '/../app/Services/SignupService.php';
 require_once __DIR__ . '/../app/Services/ContactService.php';   // ✅ ADD THIS
 
 
+
 // NOW $BASE is guaranteed available
 $BASE = rtrim($GLOBALS['config']['base_url'], '/');
 
@@ -47,6 +48,7 @@ switch ($page) {
     case 'login':    $data = LoginService::authenticate(); break;
     case 'logout':   LogoutService::logout(); header("Location: {$BASE}/index.php?page=login"); exit;
     case 'signup':   $data = SignupService::handle(); break;
+    case 'contact': ContactService::handleFormSubmit(); break;
     case 'careers':  $data = CareersService::getCareersData(); break;
     case 'cart':     $data = CartService::getCartData(); break;
     case 'job-details': $data = JobDetailsService::getJobDetails($_GET['id'] ?? null); break;
