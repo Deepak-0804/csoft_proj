@@ -31,9 +31,9 @@ $BASE   = rtrim($config['base_url'], '/');
     }
 </style>
 <header>
-    <img src="/assets/images/Csoft_Logo_3_x_2 Trans.png" alt="Company Logo" width="100">
+    <img src="<?= $BASE ?>/assets/images/Csoft_Logo_3_x_2 Trans.png" alt="Company Logo" width="100">
     <div class="logout-container">
-        <img src="/assets/images/avatar.png" alt="Profile" class="profile-icon">
+        <img src="<?= $BASE ?>/assets/images/avatar.png" alt="Profile" class="profile-icon">
         <span class="username"><?php echo $_SESSION['user']['name']; ?></span>
         <div class="logout-popup">
             <a href="index.php?page=logout">Logout</a>
