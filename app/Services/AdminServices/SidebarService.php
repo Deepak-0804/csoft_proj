@@ -8,7 +8,7 @@ class SidebarService {
         // Fetch departments
         $departments = $pdo->query("
             SELECT DeptId, DeptDisplayName, CssClass 
-            FROM MASDepartment
+            FROM masdepartment
             WHERE IsActive = 1
             ORDER BY DisplayOrder
         ")->fetchAll(PDO::FETCH_ASSOC);
@@ -16,7 +16,7 @@ class SidebarService {
         // Fetch screens
         $screens = $pdo->query("
             SELECT ScreenId, ScreenDisplayName, ControllerName, DeptId, CssClass
-            FROM Screen
+            FROM screen
             WHERE IsActive = 1
             ORDER BY DisplayOrder
         ")->fetchAll(PDO::FETCH_ASSOC);
