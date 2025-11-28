@@ -17,6 +17,9 @@ require_once __DIR__ . '/../app/Services/LogoutService.php';
 require_once __DIR__ . '/../app/Services/ProductsService.php';
 require_once __DIR__ . '/../app/Services/SignupService.php';
 require_once __DIR__ . '/../app/Services/ContactService.php';   // ✅ ADD THIS
+//for Admin pages
+require_once __DIR__ . '/../app/Services/AdminServices/SidebarService.php';
+
 
 
 
