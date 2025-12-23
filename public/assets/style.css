@@ -78,7 +78,7 @@ footer img {
   background-repeat: no-repeat;
   min-height: 80vh; /* Adjust height as needed */
   position: relative;
-}.banner-slid3 {
+}.banner-slide3 {
   background-image: url('images/Engineering.png'); /* 👈 Replace with your image */
   background-size: cover;
   background-position: center;
