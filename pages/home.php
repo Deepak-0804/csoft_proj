@@ -18,9 +18,19 @@ if (!defined('APP_INIT')) {
                     </div>
                 </div>
 
-                <div class="swiper-slide banner-slide2">
+                <div class="swiper-slide banner-slide2 d-flex align-items-center justify-content-start text-white text-center">
+                    <div class="p-5">
+                        <h1>AI That Turns Data Into Decisions</h1>
+                        <p>Build smarter systems with real-time intelligence and automation.</p>
+                    </div>
                 </div>
-                <div class="swiper-slide banner-slide3">
+
+                <div class="swiper-slide banner-slide3 d-flex align-items-center justify-content-start text-white text-center">
+                    <div class="p-5">
+                        <h1>Smart Dental Management Services</h1>
+                        <p>Streamline appointments, patient records, billing, and clinical workflows in one platform.</p>
+                    </div>
+
                 </div>
                 <!-- Add more slides if needed -->
             </div>
@@ -233,5 +243,4 @@ if (!defined('APP_INIT')) {
             disableOnInteraction: false,
         },
     });
-
 </script>

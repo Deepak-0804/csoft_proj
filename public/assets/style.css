@@ -269,7 +269,7 @@ section .container1{
   /* Remove explicit height or set min-height */
   min-height: 300px; /* or as you prefer */
   background-position: center;
-  background-image: url('images/slider1.png');
+  background-image: url('images/template.png');
   background-size: cover;
   background-attachment: fixed; /* optional */
 }
