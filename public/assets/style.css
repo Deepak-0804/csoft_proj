@@ -71,6 +71,21 @@ footer img {
   min-height: 80vh; /* Adjust height as needed */
   position: relative;
 }
+.banner-slide2 {
+  background-image: url('images/AItraining.png'); /* 👈 Replace with your image */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 80vh; /* Adjust height as needed */
+  position: relative;
+}.banner-slid3 {
+  background-image: url('images/Engineering.png'); /* 👈 Replace with your image */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 80vh; /* Adjust height as needed */
+  position: relative;
+}
 
 .btn-get-in-touch {
   background-color: white;

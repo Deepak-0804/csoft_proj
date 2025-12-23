@@ -18,11 +18,9 @@ if (!defined('APP_INIT')) {
                     </div>
                 </div>
 
-                <div class="swiper-slide">
-                    <img src="AItraining.png" class="img-fluid w-100" alt="Slide 2">
+                <div class="swiper-slide banner-slide2">
                 </div>
-                <div class="swiper-slide">
-                    <img src="Engineering.png" class="img-fluid w-100" alt="Slide 3">
+                <div class="swiper-slide banner-slide3">
                 </div>
                 <!-- Add more slides if needed -->
             </div>
