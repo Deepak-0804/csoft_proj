@@ -15,24 +15,23 @@
         ?>
 
 
-        <div class="contacttableheading">
+        <div">
             <h2>Contact Form</h2>
-            <div class="table-container">
-                <table id="contacttable">
+            <div class="table-container table-responsive mt-4">
+                <table id="contacttable" class="table table-hover table-bordered align-middle text-center ">
                     <thead>
                         <tr>
-                            <th>S.No</th>
-                            <th>Full Name</th>
-                            <th>Email</th>
-                            <th>Contact Number</th>
-                            <th>Company</th>
-                            <th>Country</th>
-                            <th>Industry</th>
-                            <th>Service</th>
-                            <th>Referred By</th>
-                            <th>Message</th>
-                            <th></th>
-                            <th></th>
+                            <th class="text-center">S.No</th>
+                            <th class="text-center">Full Name</th>
+                            <th class="text-center">Email</th>
+                            <th class="text-center">Contact Number</th>
+                            <th class="text-center">Company</th>
+                            <th class="text-center">Country</th>
+                            <th class="text-center">Industry</th>
+                            <th class="text-center">Service</th>
+                            <th class="text-center">Referred By</th>
+                            <th class="text-center">Message</th>
+                            <th class="text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -51,20 +50,22 @@
                                 <td><?php echo htmlspecialchars($row['referred_by']); ?></td>
                                 <td><?php echo htmlspecialchars($row['message']); ?></td>
                                 <td>
-                                    <a href="#" class="edit-btn" data-id="<?php echo $row['id']; ?>" title="Edit">
-                                        <i class="fa fa-pen"></i>
-                                    </a>
+                                    <span class="border me-2">
+                                        <a href="#" class="edit-btn" data-id="<?php echo $row['id']; ?>" title="Edit">
+                                            <i class="fa fa-pen"></i>
+                                        </a>
+                                    </span>
+                                    <span class="border me-2">
+                                        <a href="#"
+                                            class="delete-btn"
+                                            data-id="<?php echo $row['id']; ?>"
+                                            data-name="<?php echo htmlspecialchars($row['first_name'] . ' ' . $row['last_name']); ?>"
+                                            title="Delete">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </span>
                                 </td>
-                                <td>
-                                    <a href="#"
-                                        class="delete-btn"
-                                        data-id="<?php echo $row['id']; ?>"
-                                        data-name="<?php echo htmlspecialchars($row['first_name'] . ' ' . $row['last_name']); ?>"
-                                        title="Delete">
-                                        <i class="fa fa-trash"></i>
-                                    </a>
 
-                                </td>
 
                             </tr>
                         <?php
@@ -154,155 +155,155 @@
             </div>
 
 
-        </div>
+            </div>
 
-        <script>
-            $(document).on('click', '.edit-btn', function(e) {
-                e.preventDefault();
+            <script>
+                $(document).on('click', '.edit-btn', function(e) {
+                    e.preventDefault();
 
-                let id = $(this).data('id'); // <-- HERE IS WHERE ID GOES
+                    let id = $(this).data('id'); // <-- HERE IS WHERE ID GOES
 
-                $.ajax({
-                    url: "<?= $BASE ?>/adminpanel/contact_get.php",
-                    method: "GET",
-                    data: {
-                        id: id
-                    },
-                    success: function(response) {
-                        let data = JSON.parse(response);
+                    $.ajax({
+                        url: "<?= $BASE ?>/adminpanel/contact_get.php",
+                        method: "GET",
+                        data: {
+                            id: id
+                        },
+                        success: function(response) {
+                            let data = JSON.parse(response);
 
-                        // Fill modal fields
-                        $('#edit_id').val(data.id);
-                        $('#edit_first_name').val(data.first_name);
-                        $('#edit_last_name').val(data.last_name);
-                        $('#edit_email').val(data.email);
-                        $('#edit_contact_number').val(data.contact_number);
-                        $('#edit_company_name').val(data.company_name);
-                        $('#edit_message').val(data.message);
+                            // Fill modal fields
+                            $('#edit_id').val(data.id);
+                            $('#edit_first_name').val(data.first_name);
+                            $('#edit_last_name').val(data.last_name);
+                            $('#edit_email').val(data.email);
+                            $('#edit_contact_number').val(data.contact_number);
+                            $('#edit_company_name').val(data.company_name);
+                            $('#edit_message').val(data.message);
 
-                        // Show modal
-                        let modal = new bootstrap.Modal(document.getElementById('editContactModal'));
-                        modal.show();
-                    }
-                });
-            });
-
-            $('#saveEditBtn').on('click', function() {
-
-                let id = $('#edit_id').val().trim();
-                let first = $('#edit_first_name').val().trim();
-                let last = $('#edit_last_name').val().trim();
-                let email = $('#edit_email').val().trim();
-                let phone = $('#edit_contact_number').val().trim();
-                let company = $('#edit_company_name').val().trim();
-                let message = $('#edit_message').val().trim();
-
-                // Required Fields Validation
-                if (!first || !last || !email || !phone || !company || !message) {
-                    toastr.warning("All fields are required.");
-                    return;
-                }
-
-                // OPTIONAL: Validate email format
-                if (!email.includes("@") || !email.includes(".")) {
-                    toastr.error("Enter a valid email address.");
-                    return;
-                }
-
-                // OPTIONAL: Phone length check
-                if (phone.length < 7) {
-                    toastr.error("Enter a valid contact number.");
-                    return;
-                }
-
-                // If validation passes → continue to save
-                saveContactChanges();
-            });
-
-            function saveContactChanges() {
-
-                $.ajax({
-                    url: "<?= $BASE ?>/adminpanel/contact_update.php",
-                    method: "POST",
-                    data: {
-                        id: $('#edit_id').val(),
-                        first_name: $('#edit_first_name').val(),
-                        last_name: $('#edit_last_name').val(),
-                        email: $('#edit_email').val(),
-                        contact_number: $('#edit_contact_number').val(),
-                        company_name: $('#edit_company_name').val(),
-                        message: $('#edit_message').val()
-                    },
-                    success: function(response) {
-
-                        let res = JSON.parse(response);
-
-                        if (res.success) {
-                            toastr.success("Contact updated successfully.");
-
-                            // Close modal
-                            let modal = bootstrap.Modal.getInstance(document.getElementById('editContactModal'));
-                            modal.hide();
-
-                            // Reload page
-                            setTimeout(() => {
-                                location.reload();
-                            }, 500); // small delay so toastr is visible
-
-                        } else {
-                            toastr.error("Failed to update contact.");
+                            // Show modal
+                            let modal = new bootstrap.Modal(document.getElementById('editContactModal'));
+                            modal.show();
                         }
-                    }
+                    });
                 });
-            }
 
-            // Open delete modal and store id
-            $(document).on('click', '.delete-btn', function(e) {
-                e.preventDefault();
-                const id = $(this).data('id');
-                const name = $(this).data('name');
+                $('#saveEditBtn').on('click', function() {
 
-                // optionally include the record title in #deleteMessage
-                $('#deleteMessage').text("Are you sure you want to delete \"" + name + "\" ?");
+                    let id = $('#edit_id').val().trim();
+                    let first = $('#edit_first_name').val().trim();
+                    let last = $('#edit_last_name').val().trim();
+                    let email = $('#edit_email').val().trim();
+                    let phone = $('#edit_contact_number').val().trim();
+                    let company = $('#edit_company_name').val().trim();
+                    let message = $('#edit_message').val().trim();
 
-                $('#confirmDeleteBtn').data('id', id);
-                const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
-                modal.show();
-            });
+                    // Required Fields Validation
+                    if (!first || !last || !email || !phone || !company || !message) {
+                        toastr.warning("All fields are required.");
+                        return;
+                    }
 
-            // Confirm and perform delete
-            $(document).on('click', '#confirmDeleteBtn', function(e) {
-                e.preventDefault();
-                const id = $(this).data('id');
+                    // OPTIONAL: Validate email format
+                    if (!email.includes("@") || !email.includes(".")) {
+                        toastr.error("Enter a valid email address.");
+                        return;
+                    }
 
-                $.ajax({
-                    url: "<?= $BASE ?>/adminpanel/contact_delete.php",
-                    method: "POST",
-                    data: {
-                        id: id
-                    },
-                    success: function(response) {
-                        // If your response may already be an object, guard parse
-                        let res = (typeof response === 'string') ? JSON.parse(response) : response;
+                    // OPTIONAL: Phone length check
+                    if (phone.length < 7) {
+                        toastr.error("Enter a valid contact number.");
+                        return;
+                    }
 
-                        if (res.success) {
-                            toastr.success('Record deleted.');
-                            // close modal
-                            const modalEl = document.getElementById('deleteModal');
-                            const modalInstance = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
-                            modalInstance.hide();
+                    // If validation passes → continue to save
+                    saveContactChanges();
+                });
 
-                            // reload after small delay so user sees toastr
-                            setTimeout(function() {
-                                location.reload();
-                            }, 500);
-                        } else {
-                            toastr.error(res.error || 'Delete failed.');
+                function saveContactChanges() {
+
+                    $.ajax({
+                        url: "<?= $BASE ?>/adminpanel/contact_update.php",
+                        method: "POST",
+                        data: {
+                            id: $('#edit_id').val(),
+                            first_name: $('#edit_first_name').val(),
+                            last_name: $('#edit_last_name').val(),
+                            email: $('#edit_email').val(),
+                            contact_number: $('#edit_contact_number').val(),
+                            company_name: $('#edit_company_name').val(),
+                            message: $('#edit_message').val()
+                        },
+                        success: function(response) {
+
+                            let res = JSON.parse(response);
+
+                            if (res.success) {
+                                toastr.success("Contact updated successfully.");
+
+                                // Close modal
+                                let modal = bootstrap.Modal.getInstance(document.getElementById('editContactModal'));
+                                modal.hide();
+
+                                // Reload page
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 500); // small delay so toastr is visible
+
+                            } else {
+                                toastr.error("Failed to update contact.");
+                            }
                         }
-                    },
-                    error: function(xhr, status, err) {
-                        toastr.error('Server error. Check logs.');
-                    }
+                    });
+                }
+
+                // Open delete modal and store id
+                $(document).on('click', '.delete-btn', function(e) {
+                    e.preventDefault();
+                    const id = $(this).data('id');
+                    const name = $(this).data('name');
+
+                    // optionally include the record title in #deleteMessage
+                    $('#deleteMessage').text("Are you sure you want to delete \"" + name + "\" ?");
+
+                    $('#confirmDeleteBtn').data('id', id);
+                    const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+                    modal.show();
                 });
-            });
-        </script>
+
+                // Confirm and perform delete
+                $(document).on('click', '#confirmDeleteBtn', function(e) {
+                    e.preventDefault();
+                    const id = $(this).data('id');
+
+                    $.ajax({
+                        url: "<?= $BASE ?>/adminpanel/contact_delete.php",
+                        method: "POST",
+                        data: {
+                            id: id
+                        },
+                        success: function(response) {
+                            // If your response may already be an object, guard parse
+                            let res = (typeof response === 'string') ? JSON.parse(response) : response;
+
+                            if (res.success) {
+                                toastr.success('Record deleted.');
+                                // close modal
+                                const modalEl = document.getElementById('deleteModal');
+                                const modalInstance = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+                                modalInstance.hide();
+
+                                // reload after small delay so user sees toastr
+                                setTimeout(function() {
+                                    location.reload();
+                                }, 500);
+                            } else {
+                                toastr.error(res.error || 'Delete failed.');
+                            }
+                        },
+                        error: function(xhr, status, err) {
+                            toastr.error('Server error. Check logs.');
+                        }
+                    });
+                });
+            </script>

@@ -46,13 +46,13 @@ $roleresult = $pdo->query($rolequery); // $result now contains all rows
 
         </div>
         <div class="table-container">
-            <table id="roletable">
+            <table id="roletable" class="table table-hover table-bordered align-middle text-center">
                 <thead>
                     <tr>
-                        <th>S.No</th>
-                        <th>Role Name</th>
-                        <th></th>
-                        <th></th>
+                        <th class="text-center">S.No</th>
+                        <th class="text-center">Role Name</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Active</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -63,15 +63,25 @@ $roleresult = $pdo->query($rolequery); // $result now contains all rows
                             <td><?php echo $sn; ?></td> <!-- S.No -->
                             <td><?php echo htmlspecialchars($row['RoleName']); ?></td>
                             <td>
-                                <a href="edit_role.php?id=<?php echo $row['RoleId']; ?>" class="edit-btn" title="Edit">
-                                    <i class="fa fa-pen"></i>
-                                </a>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider round"></span>
+                                </label>
                             </td>
                             <td>
-                                <a href="javascript:void(0);" class="delete-btn" data-roleid="<?php echo $row['RoleId']; ?>" data-rolename="<?php echo htmlspecialchars($row['RoleName'], ENT_QUOTES); ?>" title="Delete">
-                                    <i class="fa fa-trash"></i>
-                                </a>
+                                <span class="border me-2">
+                                    <a href="edit_role.php?id=<?php echo $row['RoleId']; ?>" class="edit-btn" title="Edit">
+                                        <i class="fa fa-pen"></i>
+                                    </a>
+                                </span>
+                                <span class="border">
+                                    <a href="javascript:void(0);" class="delete-btn" data-roleid="<?php echo $row['RoleId']; ?>" data-rolename="<?php echo htmlspecialchars($row['RoleName'], ENT_QUOTES); ?>" title="Delete">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </span>
+
                             </td>
+
 
 
                         </tr>

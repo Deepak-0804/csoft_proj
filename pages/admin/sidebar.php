@@ -1,77 +1,105 @@
 <?php
 $data = SidebarService::getSidebarItems();
-$departments     = $data['departments'];
-$screensByDept   = $data['screensByDept'];
-
-// Current active screen (from URL)
+$departments   = $data['departments'];
+$screensByDept = $data['screensByDept'];
 $currentScreen = $_GET['page'] ?? '';
 ?>
 
-<div class="accordion" id="sidebarAccordion">
+<style> 
+  .admin-sidebar {
+    background: skyblue;
+    padding: 15px 0;
+    height: 100vh;
+    width: 240px;
+    border-right: 1px solid #ddd;
+}
 
-<?php foreach ($departments as $dept): 
-    $deptId     = $dept['DeptId'];
-    $collapseId = "dept" . $deptId;
+.nav-link {
+    color: #333;
+    font-weight: 500;
+    padding: 10px 15px;
+    border-radius: 6px;
+}
 
-    // Determine if any screen in this department is active
-    $isDeptActive = false;
-    if (!empty($screensByDept[$deptId])) {
-        foreach ($screensByDept[$deptId] as $scr) {
-            if ($scr['ControllerName'] === $currentScreen) {
-                $isDeptActive = true;
-                break;
+.nav-link:hover {
+    background: #e2e8f0;
+}
+
+.nav-link.active {
+    background: #4f46e5 !important;
+    color: #fff !important;
+}
+
+.dept-link .arrow {
+    transition: transform .3s ease;
+}
+
+.collapse.show ~ .nav-item .arrow,
+.dept-link:not(.collapsed) .arrow {
+    transform: rotate(90deg);
+}
+
+.screen-link {
+    border-radius: 6px;
+    margin-bottom: 3px;
+}
+
+.screen-link:hover {
+    background: #e2e8f0;
+}
+
+</style>
+<div class="container-fluid admin-sidebar">
+
+    <ul class="nav nav-pills flex-column">
+
+        <?php foreach ($departments as $dept): 
+            $deptId = $dept['DeptId'];
+            $deptOpen = false;
+
+            // Check if this department contains active screen
+            if (!empty($screensByDept[$deptId])) {
+                foreach ($screensByDept[$deptId] as $scr) {
+                    if ($scr['ControllerName'] === $currentScreen) {
+                        $deptOpen = true;
+                        break;
+                    }
+                }
             }
-        }
-    }
-?>
+        ?>
 
-  <div class="accordion-item">
+            <!-- Department Item -->
+            <li class="nav-item">
+                <a class="nav-link dept-link <?= $deptOpen ? '' : 'collapsed' ?>" 
+                    data-bs-toggle="collapse"
+                    href="#dept-<?= $deptId ?>" 
+                    role="button">
+                    
+                    <i class="<?= $dept['CssClass'] ?> me-2"></i>
+                    <?= htmlspecialchars($dept['DeptDisplayName']) ?>
 
-    <!-- Department Header -->
-    <h2 class="accordion-header" id="heading<?= $deptId ?>">
-      <button class="accordion-button <?= $isDeptActive ? '' : 'collapsed' ?>"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#<?= $collapseId ?>"
-              aria-expanded="<?= $isDeptActive ? 'true' : 'false' ?>"
-              aria-controls="<?= $collapseId ?>">
+                </a>
+            </li>
 
-          <!-- Department Icon -->
-          <i class="<?= htmlspecialchars($dept['CssClass']) ?> me-2"></i>
+            <!-- Screens under this Department -->
+            <div class="collapse <?= $deptOpen ? 'show' : '' ?>" id="dept-<?= $deptId ?>">
 
-          <?= htmlspecialchars($dept['DeptDisplayName']) ?>
-      </button>
-    </h2>
+                <?php foreach ($screensByDept[$deptId] ?? [] as $scr): ?>
+                    <li class="nav-item ms-4">
 
-    <!-- Screens List -->
-    <div id="<?= $collapseId ?>"
-         class="accordion-collapse collapse <?= $isDeptActive ? 'show' : '' ?>"
-         data-bs-parent="#sidebarAccordion">
+                        <a class="nav-link screen-link <?= ($scr['ControllerName'] === $currentScreen) ? 'active' : '' ?>"
+                            href="index.php?page=<?= $scr['ControllerName'] ?>&area=admin">
 
-      <div class="accordion-body p-0">
+                            <i class="<?= $scr['CssClass'] ?> me-2"></i>
+                            <?= htmlspecialchars($scr['ScreenDisplayName']) ?>
+                        </a>
 
-        <?php if (!empty($screensByDept[$deptId])): ?>
-            <?php foreach ($screensByDept[$deptId] as $scr): 
-                $isActiveScreen = ($scr['ControllerName'] === $currentScreen);
-            ?>
-            
-              <a href="index.php?page=<?= $scr['ControllerName'] ?>&area=admin"
-                 class="list-group-item list-group-item-action sidebar-item px-4 <?= $isActiveScreen ? 'active' : '' ?>">
+                    </li>
+                <?php endforeach; ?>
 
-                  <!-- Screen Icon -->
-                  <i class="<?= htmlspecialchars($scr['CssClass']) ?> me-2"></i>
+            </div>
 
-                  <?= htmlspecialchars($scr['ScreenDisplayName']) ?>
-              </a>
+        <?php endforeach; ?>
 
-            <?php endforeach; ?>
-        <?php endif; ?>
-
-      </div>
-    </div>
-
-  </div>
-
-<?php endforeach; ?>
-
+    </ul>
 </div>

@@ -125,11 +125,98 @@ footer img {
 
 }
 
+
+
 /* Main content */
 .main-content {
     flex: 1;           /* fills remaining horizontal space */
     padding: 20px;
     overflow-y: auto;  /* scroll if content taller than sidebar */
+    overflow-x: auto;   /* ← THIS FIXES YOUR ISSUE */
+
+}
+.table-responsive {
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+}
+
+/*For ON/OFF Toggle */
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 70px;
+  height: 34px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ff0000;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #008000;
+    content: "ON";
+}
+
+.slider::after {
+  content: "OFF";
+  position: absolute;
+  right: 9px;
+  top: 5px;
+  color: white;
+  font-size: 15px;
+}
+
+input:checked + .slider::after {
+  content: "ON";
+  right: 38px;
+  top:5px
+}
+
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #ccc;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(35px);
+  -ms-transform: translateX(35px);
+  transform: translateX(36px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }
 
 .hero {
@@ -809,45 +896,6 @@ color: #00008C;
   min-width: 100px;
 }
 
-.table-container {
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #fff;
-    overflow-x: auto;
-    overflow-y: auto;
-    transition: box-shadow 0.3s ease;
-}
-
-.table-container:hover {
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);  /* slightly stronger shadow on hover */
-}
-
-.table-container tbody tr:hover td {
-    background-color: #f0f8ff; /* light blue highlight for the hovered row */
-}
-
-.table-container table {
-    padding: 15px;
-    font-family: Arial, sans-serif;
-    transition: all 0.3s ease; /* smooth hover effects */
-
-}
-.table-container table thead {
-    text-align: center;
-}
-
-
-.table-container th, .table-container td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: center;
-}
-
-.table-container th {
-    background-color: #f4f4f4;
-    font-weight: bold;
-}
 
 .edit-btn i {
     color: #007bff; /* blue for edit */
@@ -865,33 +913,7 @@ color: #00008C;
     transition: 0.2s;
 }
 
-.contacttableheading{
-border-top: 2px solid #007bff; /* width, style, color */
-padding-bottom: 5px; /* optional, adds space between text and underline */
-}
 
-.dashboard-wrapper{
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    margin-top: 30px;
-}
-
-.child-wrapper{
-    flex: 1;
-}
-
-.child-wrapper .contacttableheading .rolecreation{
-    display: flex;                /* arrange children in a row */
-    justify-content: space-between; /* push items to ends */
-    align-items: center;          /* vertical alignment */
-}
-
-.child-wrapper .contacttableheading .rolecreation button{
-   padding: 10px;
-   background-color: green;
-   color: white;
-}
 
 .role-modal {
     display: none; /* hide initially */
@@ -1592,3 +1614,5 @@ label[aria-expanded="true"] .transition-arrow {
 #payment img {
   vertical-align: middle;
 }
+
+
